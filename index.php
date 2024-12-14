@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login & Sign Up</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="login.css"></link>
+    <link rel="stylesheet" href="index.css"></link>
 </head>
 <body>
     <div class="form-container" id="login-form">
