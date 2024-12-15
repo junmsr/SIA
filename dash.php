@@ -7,6 +7,17 @@ if (!isset($_SESSION['user'])) {
     exit;
 }
 
+// Get the logged-in user's email
+$userEmail = $_SESSION['user']; // Assuming the session stores the user's email
+$sanitizedEmail = str_replace(['@', '.'], '_', $userEmail); // Sanitize for filename
+$file = "transactions_{$sanitizedEmail}.txt";
+
+// Initialize summary variables
+$totalIncome = 0;
+$totalExpense = 0;
+$totalSavings = 0;
+$transactionHistory = [];
+
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['transaction-name'])) {
     $transactionName = $_POST['transaction-name'];
@@ -16,10 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['transaction-name'])) 
 
     // Validate required fields
     if (!empty($transactionName) && !empty($category) && !empty($amount)) {
-        $file = 'transactions.txt';
         $entry = "$transactionName,$category,$amount,$description\n";
 
-        // Save entry to file
+        // Save entry to the user's specific file
         file_put_contents($file, $entry, FILE_APPEND);
         echo "<script>alert('Transaction saved successfully!');</script>";
     } else {
@@ -27,16 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['transaction-name'])) 
     }
 }
 
-// File to store transactions
-$file = 'transactions.txt';
-
-// Initialize summary variables
-$totalIncome = 0;
-$totalExpense = 0;
-$totalSavings = 0;
-$transactionHistory = [];
-
-// Read and process transactions if the file exists
+// Read and process transactions for the logged-in user
 if (file_exists($file)) {
     $transactions = file($file, FILE_IGNORE_NEW_LINES);
     foreach ($transactions as $transaction) {
