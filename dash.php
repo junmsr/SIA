@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Redirect to login if not logged in
 if (!isset($_SESSION['user'])) {
     header('Location: index.php');
     exit;
@@ -12,7 +11,6 @@ $userEmail = $_SESSION['user']; // Assuming the session stores the user's email
 $sanitizedEmail = str_replace(['@', '.'], '_', $userEmail); // Sanitize for filename
 $file = "transactions_{$sanitizedEmail}.txt";
 
-// Initialize summary variables
 $totalIncome = 0;
 $totalExpense = 0;
 $totalSavings = 0;
